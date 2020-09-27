@@ -4,7 +4,7 @@ import figure.schema
 import user.schema
 
 
-class Query(figure.schema.Query, graphene.ObjectType):
+class Query(figure.schema.Query, user.schema.Query, graphene.ObjectType):
     pass
 
 
