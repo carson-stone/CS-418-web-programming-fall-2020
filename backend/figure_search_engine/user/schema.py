@@ -21,6 +21,7 @@ class CreateUser(graphene.Mutation):
     def mutate(self, info, email, phone, password, interest):
         user = get_user_model()(
             email=email,
+            username=email,
             phone=phone,
             password=password,
             interest=interest
