@@ -4,11 +4,11 @@ import figure.schema
 import user.schema
 
 
-class Query(figure.schema.Query, user.schema.Query, graphene.ObjectType):
+class Query(figure.schema.Query, user.schema.Query):
     pass
 
 
-class Mutation(figure.schema.Mutation, user.schema.Mutation, graphene.ObjectType):
+class Mutation(figure.schema.Mutation, user.schema.Mutation):
     pass
 
 
