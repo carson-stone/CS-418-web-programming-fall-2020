@@ -23,7 +23,6 @@ class CreateUser(graphene.Mutation):
             email=email,
             username=email,
             phone=phone,
-            password=password,
             interest=interest
         )
 
