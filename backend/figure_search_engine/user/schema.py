@@ -20,10 +20,7 @@ class CreateUser(graphene.Mutation):
 
     def mutate(self, info, email, phone, password, interest):
         user = get_user_model()(
-            email=email,
-            username=email,
-            phone=phone,
-            interest=interest
+            email=email, username=email, phone=phone, interest=interest
         )
 
         user.set_password(password)
@@ -37,7 +34,13 @@ class Mutation(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
+    me = graphene.Field(UserType)
     users = graphene.List(UserType)
+
+    def resolve_me(self, info):
+        if info.context.user.is_anonymous:
+            raise Exception("not logged in")
+        return info.context.user
 
     def resolve_users(self, info):
         return get_user_model().objects.all()
