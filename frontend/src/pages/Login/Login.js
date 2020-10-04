@@ -25,6 +25,7 @@ export default function () {
     onCompleted: (data) => {
       setToken(data.tokenAuth.token);
       sessionStorage.setItem('token', data.tokenAuth.token);
+
       history.push('/');
     },
   });

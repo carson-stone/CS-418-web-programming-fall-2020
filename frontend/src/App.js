@@ -11,12 +11,14 @@ import './App.css';
 
 const App = function () {
   let sessionToken = '';
+
   if (sessionStorage.getItem('token')) {
     sessionToken = sessionStorage.getItem('token');
   }
 
   const [token, setToken] = useState(sessionToken);
-  console.log(sessionStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+
   const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
     headers: {
@@ -31,7 +33,7 @@ const App = function () {
 
   return (
     <ApolloProvider client={client}>
-      <AppContext.Provider value={{ token, setToken }}>
+      <AppContext.Provider value={{ token, setToken, user, setUser }}>
         <Router>
           <div className='App'>
             <Routes />
