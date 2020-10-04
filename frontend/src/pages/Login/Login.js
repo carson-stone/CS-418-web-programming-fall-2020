@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../../state/AppContext';
+import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
+
+import { useAppContext } from '../../state/AppContext';
 
 const AUTHENTICATE_QUERY = gql`
   mutation AuthenticateQuery($email: String!, $password: String!) {
@@ -12,20 +14,24 @@ const AUTHENTICATE_QUERY = gql`
 `;
 
 export default function () {
+  const history = useHistory();
+
   const { setToken } = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [authenticate, { loading, error, data }] = useMutation(
-    AUTHENTICATE_QUERY,
-    {
-      onError: (error) => alert(error),
-      onCompleted: (data) => setToken(data.tokenAuth.token),
-    }
-  );
+  const [authenticate, { loading, error }] = useMutation(AUTHENTICATE_QUERY, {
+    onError: (error) => alert(error),
+    onCompleted: (data) => {
+      setToken(data.tokenAuth.token);
+      sessionStorage.setItem('token', data.tokenAuth.token);
+      history.push('/');
+    },
+  });
 
-  if (loading) return <h2>loading</h2>;
-  if (data) return <h2>{data.tokenAuth.token}</h2>;
+  if (loading) {
+    return <h2>loading</h2>;
+  }
 
   return (
     <div>

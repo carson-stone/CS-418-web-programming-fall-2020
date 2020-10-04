@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 
 import { AppContext } from './state/AppContext';
-import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
+import Routes from './Routes';
 import './App.css';
 
 const App = function () {
-  const [token, setToken] = useState('initial token');
+  let sessionToken = '';
+  if (sessionStorage.getItem('token')) {
+    sessionToken = sessionStorage.getItem('token');
+  }
 
+  const [token, setToken] = useState(sessionToken);
+  console.log(sessionStorage.getItem('token'));
   const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
     headers: {
@@ -28,10 +32,11 @@ const App = function () {
   return (
     <ApolloProvider client={client}>
       <AppContext.Provider value={{ token, setToken }}>
-        <div className='App'>
-          <Login />
-          <Home />
-        </div>
+        <Router>
+          <div className='App'>
+            <Routes />
+          </div>
+        </Router>
       </AppContext.Provider>
     </ApolloProvider>
   );
