@@ -38,7 +38,6 @@ class Query(graphene.ObjectType):
     users = graphene.List(UserType)
 
     def resolve_me(self, info):
-        print(info.context.META["HTTP_AUTHORIZATION"])
         if info.context.user.is_anonymous:
             raise Exception("not logged in")
         return info.context.user
