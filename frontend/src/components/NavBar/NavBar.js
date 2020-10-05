@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function () {
   return (
@@ -7,8 +7,8 @@ export default function () {
       <h2>Figure Search Engine</h2>
 
       <span>
-        <Link to='/'>Home</Link>
-        <Link to='/profile'>Profile</Link>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/profile'>Profile</NavLink>
       </span>
     </div>
   );
