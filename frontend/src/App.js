@@ -7,6 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { AppContext } from './state/AppContext';
 import Routes from './Routes';
+import NavBar from './components/NavBar/NavBar';
 import './App.css';
 
 const App = function () {
@@ -36,6 +37,7 @@ const App = function () {
       <AppContext.Provider value={{ token, setToken, user, setUser }}>
         <Router>
           <div className='App'>
+            <NavBar />
             <Routes />
           </div>
         </Router>

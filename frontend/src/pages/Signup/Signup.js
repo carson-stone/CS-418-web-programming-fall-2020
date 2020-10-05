@@ -3,12 +3,22 @@ import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { useAppContext } from '../../state/AppContext';
-
-const AUTHENTICATE_QUERY = gql`
-  mutation AuthenticateQuery($email: String!, $password: String!) {
-    tokenAuth(username: $email, password: $password) {
-      token
+const SIGNUP_QUERY = gql`
+  mutation SignupQuery(
+    $email: String!
+    $password: String!
+    $phone: String!
+    $interest: String!
+  ) {
+    createUser(
+      email: $email
+      password: $password
+      phone: $phone
+      interest: $interest
+    ) {
+      user {
+        id
+      }
     }
   }
 `;
@@ -16,17 +26,16 @@ const AUTHENTICATE_QUERY = gql`
 export default function () {
   const history = useHistory();
 
-  const { setToken } = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [interest, setInterest] = useState('');
 
-  const [authenticate, { loading, error }] = useMutation(AUTHENTICATE_QUERY, {
+  const [signup, { loading, error }] = useMutation(SIGNUP_QUERY, {
     onError: (error) => alert(error),
-    onCompleted: (data) => {
-      setToken(data.tokenAuth.token);
-      sessionStorage.setItem('token', data.tokenAuth.token);
-
-      history.push('/');
+    onCompleted: () => {
+      history.push('/login');
     },
   });
 
@@ -36,7 +45,7 @@ export default function () {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Singup</h1>
 
       {error && <h2>{error.message}</h2>}
 
@@ -48,7 +57,6 @@ export default function () {
             type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='example@email.com'
           />
         </label>
 
@@ -59,7 +67,26 @@ export default function () {
             type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder='******'
+          />
+        </label>
+
+        <label htmlFor='phone'>
+          Phone
+          <input
+            name='phone'
+            type='tel'
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </label>
+
+        <label htmlFor='interest'>
+          Interest
+          <input
+            name='interest'
+            type='text'
+            value={interest}
+            onChange={(e) => setInterest(e.target.value)}
           />
         </label>
       </form>
@@ -70,21 +97,15 @@ export default function () {
             className='primary'
             onClick={(e) => {
               e.preventDefault();
-              authenticate({
-                variables: { email, password },
+              signup({
+                variables: { email, password, phone, interest },
               });
             }}
           >
-            Login
-          </button>
-          <button
-            className='secondary'
-            onClick={() => history.push('/forgotpassword')}
-          >
-            Forgot Password?
-          </button>
-          <button className='secondary' onClick={() => history.push('/signup')}>
             Signup
+          </button>
+          <button className='secondary' onClick={() => history.push('/login')}>
+            Login
           </button>
         </span>
       </div>

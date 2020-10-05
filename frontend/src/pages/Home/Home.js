@@ -35,9 +35,16 @@ export default function () {
 
   return (
     <div>
-      <h1>Home</h1>
+      <h1>What will you find today?</h1>
 
-      <p>welcome {email}</p>
+      <form id='search-form'>
+        <input
+          type='text'
+          name='search'
+          placeholder='find a figure (ex. toaster)...'
+        />
+        <button className='primary'>Search</button>
+      </form>
     </div>
   );
 }

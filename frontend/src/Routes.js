@@ -4,6 +4,7 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useAppContext } from './state/AppContext';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 import Profile from './pages/Profile/Profile';
 
 export default function () {
@@ -11,12 +12,18 @@ export default function () {
   const history = useHistory();
   const { token } = useAppContext();
 
-  if (token === '' && location.pathname !== '/login') {
-    history.push('/login');
+  if (
+    token === '' &&
+    location.pathname !== '/login' &&
+    location.pathname !== '/signup'
+  ) {
     return <Login />;
   }
 
-  if (token && location.pathname === '/login') {
+  if (
+    token &&
+    (location.pathname === '/login' || location.pathname === '/signup')
+  ) {
     history.push('/');
   }
 
@@ -27,6 +34,9 @@ export default function () {
       </Route>
       <Route path='/login' exact>
         <Login />
+      </Route>
+      <Route path='/signup' exact>
+        <Signup />
       </Route>
       <Route path='/profile' exact>
         <Profile />
