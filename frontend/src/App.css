@@ -20,6 +20,10 @@ h2 {
   color: #31584f;
 }
 
+h3 {
+  color: #31584f;
+}
+
 .NavBar {
   display: flex;
   justify-content: space-between;

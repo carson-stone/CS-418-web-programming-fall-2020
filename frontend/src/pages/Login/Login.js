@@ -95,7 +95,7 @@ export default function () {
           </button>
           <button
             className='secondary'
-            onClick={() => history.push('/forgotpassword')}
+            onClick={() => history.push('/recoverpassword')}
           >
             Forgot Password?
           </button>

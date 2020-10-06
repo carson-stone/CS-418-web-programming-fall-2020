@@ -62,10 +62,47 @@ class ChangePassword(graphene.Mutation):
         return ChangePassword(email=user.email)
 
 
+class RecoverPassword(graphene.Mutation):
+    email = graphene.String()
+
+    class Arguments:
+        email = graphene.String()
+        password = graphene.String()
+
+    def mutate(self, info, email, password):
+        user = get_user_model().objects.get(email=email)
+
+        user.set_password(password)
+        user.save()
+
+        return RecoverPassword(email=user.email)
+
+
+class CanRecoverPassword(graphene.Mutation):
+    status = graphene.Boolean()
+
+    class Arguments:
+        email = graphene.String()
+        phone = graphene.String()
+
+    def mutate(self, info, email, phone):
+        status = False
+        user = get_user_model().objects.get(email=email)
+
+        if user.phone == phone:
+            status = True
+        else:
+            raise Exception("Failed email and phone combination")
+
+        return CanRecoverPassword(status=status)
+
+
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     update_profile = UpdateProfile.Field()
     change_password = ChangePassword.Field()
+    recover_password = RecoverPassword.Field()
+    can_recover_password = CanRecoverPassword.Field()
 
 
 class Query(graphene.ObjectType):

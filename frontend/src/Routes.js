@@ -5,6 +5,7 @@ import { useAppContext } from './state/AppContext';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
+import RecoverPassword from './pages/RecoverPassword/RecoverPassword';
 import Profile from './pages/Profile/Profile';
 
 export default function () {
@@ -15,6 +16,7 @@ export default function () {
   if (
     token === '' &&
     location.pathname !== '/login' &&
+    location.pathname !== '/recoverpassword' &&
     location.pathname !== '/signup'
   ) {
     return <Login />;
@@ -37,6 +39,9 @@ export default function () {
       </Route>
       <Route path='/signup' exact>
         <Signup />
+      </Route>
+      <Route path='/recoverpassword' exact>
+        <RecoverPassword />
       </Route>
       <Route path='/profile' exact>
         <Profile />

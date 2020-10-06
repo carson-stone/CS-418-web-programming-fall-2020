@@ -110,20 +110,22 @@ export default function () {
               {user && <span>{user.email}</span>}
             </div>
             <div className='form-row'>
-              <label>Phone</label>
+              <label htmlFor='phone'>Phone</label>
               <input
                 placeholder={user.phone}
                 value={phone}
                 type='tel'
+                name='phone'
                 onChange={(e) => setPhone(e.target.value)}
               />
             </div>
             <div className='form-row'>
-              <label>Interest</label>
+              <label htmlFor='interest'>Interest</label>
               <input
                 placeholder={user.interest}
                 value={interest}
                 type='text'
+                name='interest'
                 onChange={(e) => setInterest(e.target.value)}
               />
             </div>
@@ -157,11 +159,12 @@ export default function () {
         <>
           <form>
             <div className='form-row' id='password-row'>
-              <label>Password</label>
+              <label htmlFor='password'>Password</label>
               <input
                 placeholder='******'
                 value={password}
                 type='password'
+                name='password'
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
