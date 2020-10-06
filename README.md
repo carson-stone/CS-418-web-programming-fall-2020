@@ -9,6 +9,7 @@ CS 418 at ODU, professor Wu
 ## Clone the code
 `git clone https://github.com/carson-stone/CS-418-web-programming-fall-2020.git`
 
+`git clone git@github.com:carson-stone/CS-418-web-programming-fall-2020.git`
 
 
 ## Setting up the backend
