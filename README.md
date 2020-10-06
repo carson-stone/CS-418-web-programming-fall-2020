@@ -36,6 +36,6 @@ CS 418 at ODU, professor Wu
 ## Setting up the frontend
 `cd CS-418-web-programming-fall-2020/frontend`
 
-`yarn instal`
+`yarn install`
 
 `yarn start`
