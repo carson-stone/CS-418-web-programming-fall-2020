@@ -18,12 +18,12 @@ CS 418 at ODU, professor Wu
 ### Setting up MySQL
 ` mysql -u admin -p`
 
-`> CREATE DATABASE figure_search_engine_db`
+`> CREATE DATABASE figure_search_engine_db;`
 
-`mysql -u admin -p --force --verbose figure_search_engine_db < figure_search_engine_db.db`
+`mysql -u admin -p --force --verbose figure_search_engine_db < figure_search_engine_db.sql`
 
 ### Setting up Django
-`python -m venv`
+`python -m venv venv`
 
 `source venv/bin/activate`
 
