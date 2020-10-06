@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -19,6 +19,21 @@ export default function () {
   const { setToken } = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [valid, setValid] = useState('');
+
+  const validate = () => {
+    if (email.length === 0 || password.length === 0) {
+      setValid(false);
+      return;
+    }
+
+    setValid(true);
+  };
+
+  useEffect(() => {
+    validate();
+  }, [email, password]);
 
   const [authenticate, { loading, error }] = useMutation(AUTHENTICATE_QUERY, {
     onError: (error) => alert(error),
@@ -74,6 +89,7 @@ export default function () {
                 variables: { email, password },
               });
             }}
+            disabled={!valid}
           >
             Login
           </button>

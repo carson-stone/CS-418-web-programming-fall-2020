@@ -78,6 +78,11 @@ button.primary {
   font-weight: 700;
 }
 
+button.primary:disabled {
+  background-color: #a4a4a4;
+  cursor: default;
+}
+
 button.secondary {
   border: solid #1d9276 1px;
   background-color: transparent;
@@ -122,4 +127,14 @@ label input {
 
 #search-form {
   display: inline;
+}
+
+.form-row {
+  width: 400px;
+  justify-content: space-between;
+  display: flex;
+}
+
+.form-row span {
+  color: #a4a4a4;
 }

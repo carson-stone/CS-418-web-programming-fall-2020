@@ -8,7 +8,6 @@ import './Home.css';
 const ME_QUERY = gql`
   query MeQuery {
     me {
-      id
       email
       phone
       interest
