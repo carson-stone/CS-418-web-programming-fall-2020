@@ -29,10 +29,6 @@ CS 418 at ODU, professor Wu
 
 `pip install -r requirements.txt`
 
-`python figure_search_engine/manage.py makemigrations`
-
-`python figure_search_engine/manage.py migrate`
-
 `python figure_search_engine/manage.py runserver`
 
 
