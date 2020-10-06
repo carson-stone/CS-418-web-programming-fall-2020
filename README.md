@@ -39,3 +39,9 @@ CS 418 at ODU, professor Wu
 `yarn install`
 
 `yarn start`
+
+
+
+## Login to the app
+- username: "cston001@odu.edu"
+- password: "monarchs"
