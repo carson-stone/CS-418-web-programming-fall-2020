@@ -133,8 +133,37 @@ label input {
   width: 400px;
   justify-content: space-between;
   display: flex;
+  align-items: center;
 }
 
 .form-row span {
   color: #a4a4a4;
+}
+
+.form-row label {
+  margin: 25px 0;
+  flex: 0;
+}
+
+.form-row:first-child label {
+  margin-top: 0px;
+}
+
+.form-row:first-child span {
+  align-self: flex-start;
+}
+
+.form-row:last-child label {
+  margin-bottom: 50px;
+}
+
+.form-row:last-child span,
+.form-row:last-child input {
+  margin-top: 25px;
+  margin-bottom: 50px;
+}
+
+#password-row input {
+  margin-bottom: 50px;
+  margin-top: 0px;
 }

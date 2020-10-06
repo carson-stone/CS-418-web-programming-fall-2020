@@ -29,8 +29,43 @@ class CreateUser(graphene.Mutation):
         return CreateUser(user=user)
 
 
+class UpdateProfile(graphene.Mutation):
+    phone = graphene.String()
+    interest = graphene.String()
+
+    class Arguments:
+        phone = graphene.String(required=True)
+        interest = graphene.String(required=True)
+
+    def mutate(self, info, phone, interest):
+        user = info.context.user
+
+        user.phone = phone
+        user.interest = interest
+
+        user.save()
+
+        return UpdateProfile(phone=phone, interest=interest)
+
+
+class ChangePassword(graphene.Mutation):
+    email = graphene.String()
+
+    class Arguments:
+        password = graphene.String()
+
+    def mutate(self, info, password):
+        user = info.context.user
+        user.set_password(password)
+        user.save()
+
+        return ChangePassword(email=user.email)
+
+
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
+    update_profile = UpdateProfile.Field()
+    change_password = ChangePassword.Field()
 
 
 class Query(graphene.ObjectType):

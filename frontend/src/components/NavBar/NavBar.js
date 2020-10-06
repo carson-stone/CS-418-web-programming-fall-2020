@@ -8,9 +8,7 @@ export default function () {
 
       <span>
         <Link to='/'>Home</Link>
-        <Link a to='/profile'>
-          Profile
-        </Link>
+        <Link to='/profile'>Profile</Link>
       </span>
     </div>
   );
