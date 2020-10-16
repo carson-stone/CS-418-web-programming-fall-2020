@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -9,6 +9,14 @@ const AUTHENTICATE_QUERY = gql`
   mutation AuthenticateQuery($email: String!, $password: String!) {
     tokenAuth(username: $email, password: $password) {
       token
+    }
+  }
+`;
+
+const EMAIL_VERIFIED_QUERY = gql`
+  mutation EmailVerifiedQuery($email: String!) {
+    isUserVerified(email: $email) {
+      verified
     }
   }
 `;
@@ -35,6 +43,11 @@ export default function () {
     validate();
   }, [email, password]);
 
+  const [
+    seeIfEmailIsVerified,
+    { loading: verifyLoading, error: verifyError },
+  ] = useMutation(EMAIL_VERIFIED_QUERY);
+
   const [authenticate, { loading, error }] = useMutation(AUTHENTICATE_QUERY, {
     onError: (error) => alert(error),
     onCompleted: (data) => {
@@ -45,7 +58,7 @@ export default function () {
     },
   });
 
-  if (loading) {
+  if (loading || verifyLoading) {
     return <h2>loading</h2>;
   }
 
@@ -54,6 +67,7 @@ export default function () {
       <h1>Login</h1>
 
       {error && <h2>{error.message}</h2>}
+      {verifyError && <h2>{verifyError.message}</h2>}
 
       <form>
         <label htmlFor='email'>

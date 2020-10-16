@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 import { useAppContext } from '../../state/AppContext';
 import './Home.css';
+import { Redirect } from 'react-router-dom';
 
 const ME_QUERY = gql`
   query MeQuery {
@@ -11,6 +12,7 @@ const ME_QUERY = gql`
       email
       phone
       interest
+      emailVerified
     }
   }
 `;
@@ -30,7 +32,11 @@ export default function () {
   if (loading) return <h1>loading</h1>;
   if (error) return <h1>{error.message}</h1>;
 
-  const { email } = data.me;
+  const { email, emailVerified } = data.me;
+
+  if (emailVerified === false) {
+    return <Redirect to={{ pathname: '/verifyemail', state: { email } }} />;
+  }
 
   return (
     <div>

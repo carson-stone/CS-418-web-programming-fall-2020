@@ -12,6 +12,7 @@ graphql-relay==2.0.1
 mysqlclient==2.0.1
 promise==2.3
 PyJWT==1.7.1
+python-decouple==3.3
 pytz==2020.1
 Rx==1.6.1
 singledispatch==3.4.0.3

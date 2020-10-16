@@ -1,4 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
+
+from email_verification.models import Email
 
 import graphene
 from graphene_django import DjangoObjectType
@@ -7,6 +11,11 @@ from graphene_django import DjangoObjectType
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
+
+    email_verified = graphene.Boolean()
+
+    def resolve_email_verified(self, info):
+        return True if self.email_verified.verified else False
 
 
 class CreateUser(graphene.Mutation):
@@ -25,6 +34,16 @@ class CreateUser(graphene.Mutation):
 
         user.set_password(password)
         user.save()
+        email_object = Email(user=user)
+        email_object.save()
+
+        send_mail(
+            "Figure Search Engine: please verify your email address",
+            f"your code is {email_object.code}",
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
 
         return CreateUser(user=user)
 
@@ -97,12 +116,49 @@ class CanRecoverPassword(graphene.Mutation):
         return CanRecoverPassword(status=status)
 
 
+class IsUserVerified(graphene.Mutation):
+    verified = graphene.Boolean()
+
+    class Arguments:
+        email = graphene.String()
+
+    def mutate(self, info, email):
+        user = get_user_model().objects.get(username=email)
+
+        if user.email_verified.verified:
+            return IsUserVerified(verified=True)
+
+        return IsUserVerified(verified=False)
+
+
+class VerifyEmail(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        email = graphene.String()
+        code = graphene.String()
+
+    def mutate(self, info, email, code):
+        user = get_user_model().objects.get(username=email)
+        email_object = user.email_verified
+
+        if code == user.email_verified.code:
+            email_object.verified = True
+            email_object.save()
+
+            return VerifyEmail(success=True)
+
+        return VerifyEmail(success=False)
+
+
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     update_profile = UpdateProfile.Field()
     change_password = ChangePassword.Field()
     recover_password = RecoverPassword.Field()
     can_recover_password = CanRecoverPassword.Field()
+    is_user_verified = IsUserVerified.Field()
+    verify_email = VerifyEmail.Field()
 
 
 class Query(graphene.ObjectType):

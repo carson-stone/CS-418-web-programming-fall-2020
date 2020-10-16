@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import RecoverPassword from './pages/RecoverPassword/RecoverPassword';
+import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Profile from './pages/Profile/Profile';
 
 export default function () {
@@ -17,7 +18,8 @@ export default function () {
     token === '' &&
     location.pathname !== '/login' &&
     location.pathname !== '/recoverpassword' &&
-    location.pathname !== '/signup'
+    location.pathname !== '/signup' &&
+    location.pathname !== '/verifyemail'
   ) {
     return <Login />;
   }
@@ -43,6 +45,11 @@ export default function () {
       <Route path='/recoverpassword' exact>
         <RecoverPassword />
       </Route>
+      <Route
+        path='/verifyemail'
+        exact
+        render={(props) => <VerifyEmail {...props} />}
+      />
       <Route path='/profile' exact>
         <Profile />
       </Route>
