@@ -29,11 +29,19 @@ CS 418 at ODU, professor Wu
 
 `pip install -r requirements.txt`
 
+`python figure_search_engine/manage.py runserver`
+
 
 
 ## Setting up the frontend
 `cd CS-418-web-programming-fall-2020/frontend`
 
-`yarn instal`
+`yarn install`
 
 `yarn start`
+
+
+
+## Login to the app
+- username: "cston001@odu.edu"
+- password: "monarchs"
