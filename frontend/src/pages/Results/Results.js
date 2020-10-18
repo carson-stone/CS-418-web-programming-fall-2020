@@ -1,8 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useMutation } from 'react-apollo';
+import { SEARCH_MUTATION } from '../Home/Home';
 
 export default function (props) {
-  const { results, query } = props.location.state;
+  let { results: initialResults, query: initialQuery } = props.location.state;
+  const [results, setResults] = useState(initialResults);
+  const [query, setQuery] = useState(initialQuery);
+
   const [uniqueResults, setUniqueResults] = useState([]);
+
+  const search = useRef(null);
+
+  const [searchAgain, { loading, error }] = useMutation(SEARCH_MUTATION, {
+    onCompleted: (data) => {
+      setResults(data.search.figures);
+    },
+  });
 
   useEffect(() => {
     const uniqueIds = new Set();
@@ -11,23 +24,46 @@ export default function (props) {
       results.forEach(({ patentId }) => {
         uniqueIds.add(patentId);
       });
-    }
 
-    setUniqueResults(
-      results.filter(({ patentId, object }) => {
-        if (uniqueIds.has(patentId)) {
-          uniqueIds.delete(patentId);
-          return { patentId, object };
-        }
-      })
-    );
-  }, []);
+      setUniqueResults(
+        results.filter(({ patentId, object }) => {
+          if (uniqueIds.has(patentId)) {
+            uniqueIds.delete(patentId);
+            return { patentId, object };
+          }
+        })
+      );
+    }
+  }, [results]);
+
+  if (loading) return <h1>loading</h1>;
+  if (error) return <h1>{error.message}</h1>;
 
   return (
     <div>
-      <h1>
-        {uniqueResults.length} results for "{query}"
-      </h1>
+      <span>
+        <h1>
+          {uniqueResults.length} results for "{query}"
+        </h1>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setQuery(search.current.value);
+            searchAgain({ variables: { description: search.current.value } });
+          }}
+        >
+          <span id='search-box-and-btn'>
+            <input
+              type='text'
+              name='description'
+              placeholder='ex. toaster designs'
+              ref={search}
+              defaultValue={query}
+            />
+            <button className='primary'>Search</button>
+          </span>
+        </form>
+      </span>
 
       <div id='results'>
         {uniqueResults.length > 0 &&

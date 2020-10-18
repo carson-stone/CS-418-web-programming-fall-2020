@@ -18,7 +18,7 @@ const ME_QUERY = gql`
   }
 `;
 
-const SEARCH_MUTATION = gql`
+export const SEARCH_MUTATION = gql`
   mutation SearchMutation(
     $description: String!
     $patentId: String
