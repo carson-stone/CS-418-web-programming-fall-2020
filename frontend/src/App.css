@@ -6,6 +6,7 @@
   color: #1d9276;
   background-color: #fafafa;
   min-height: 100vh;
+  height: 100%;
 }
 
 h1 {
@@ -170,4 +171,28 @@ label input {
 #password-row input {
   margin-bottom: 50px;
   margin-top: 0px;
+}
+
+#advanced-search {
+  margin-top: 25px;
+}
+
+#search-box-and-btn {
+  display: flex;
+}
+
+.result-img {
+  max-height: 400px;
+  max-width: 100%;
+}
+
+.result-img-container {
+  margin: 1rem;
+}
+
+#results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  overflow: hidden;
+  padding: 25px;
 }

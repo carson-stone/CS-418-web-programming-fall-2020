@@ -8,6 +8,7 @@ import Signup from './pages/Signup/Signup';
 import RecoverPassword from './pages/RecoverPassword/RecoverPassword';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Profile from './pages/Profile/Profile';
+import Results from './pages/Results/Results';
 
 export default function () {
   const location = useLocation();
@@ -53,6 +54,7 @@ export default function () {
       <Route path='/profile' exact>
         <Profile />
       </Route>
+      <Route path='/results' exact render={(props) => <Results {...props} />} />
     </Switch>
   );
 }

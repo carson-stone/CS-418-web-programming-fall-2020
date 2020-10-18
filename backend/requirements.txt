@@ -1,10 +1,12 @@
 aniso8601==7.0.0
 asgiref==3.2.10
+certifi==2020.6.20
 Django==2.2
 django-cors-headers==3.5.0
 django-environ==0.4.5
 django-filter==2.0.0
 django-graphql-jwt==0.1.5
+elasticsearch==7.9.1
 graphene==2.1.8
 graphene-django==2.2.0
 graphql-core==2.3.2
@@ -18,3 +20,4 @@ Rx==1.6.1
 singledispatch==3.4.0.3
 six==1.15.0
 sqlparse==0.3.1
+urllib3==1.25.10
