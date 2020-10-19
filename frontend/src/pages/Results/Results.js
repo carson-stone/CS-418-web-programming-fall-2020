@@ -18,7 +18,12 @@ export default function (props) {
   });
 
   useEffect(() => {
+    console.log('in use effect', results);
     const uniqueIds = new Set();
+
+    if (results.length === 0) {
+      setUniqueResults([]);
+    }
 
     if (results.length > 0) {
       results.forEach(({ patentId }) => {
@@ -38,6 +43,10 @@ export default function (props) {
 
   if (loading) return <h1>loading</h1>;
   if (error) return <h1>{error.message}</h1>;
+
+  console.log('results', results);
+  console.log('runique esults', uniqueResults);
+  console.log('query', query);
 
   return (
     <div>
