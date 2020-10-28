@@ -2,6 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useMutation } from 'react-apollo';
 import { SEARCH_MUTATION } from '../Home/Home';
 
+// from https://www.cssscript.com/remove-html-tags-prevent-xss/
+function removeHtmlTags(a) {
+  return a.replace(/(<([^>]+)>)/gi, '');
+}
+
 export default function (props) {
   let { results: initialResults, query: initialQuery } = props.location.state;
   const [results, setResults] = useState(initialResults);
@@ -85,7 +90,7 @@ export default function (props) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setQuery(search.current.value);
+            setQuery(removeHtmlTags(search.current.value).trim());
             searchAgain({ variables: { description: search.current.value } });
           }}
         >
