@@ -8,6 +8,7 @@ export default function (props) {
   const [query, setQuery] = useState(initialQuery);
 
   const [uniqueResults, setUniqueResults] = useState([]);
+  const [resultImages, setResultImages] = useState([]);
 
   const search = useRef(null);
 
@@ -18,7 +19,6 @@ export default function (props) {
   });
 
   useEffect(() => {
-    console.log('in use effect', results);
     const uniqueIds = new Set();
 
     if (results.length === 0) {
@@ -41,18 +41,46 @@ export default function (props) {
     }
   }, [results]);
 
+  useEffect(() => {
+    const allImages = [
+      ...uniqueResults.map(({ patentId: id, object }) => {
+        const images = [];
+        let counter = 0;
+
+        while (true) {
+          try {
+            const image = (
+              <div key={Math.random() + id} className='result-img-container'>
+                {object !== '0' && <h3>{object}</h3>}
+                <img
+                  className='result-img'
+                  src={require(`../../dataset/${id}-D0000${counter}.png`)}
+                />
+              </div>
+            );
+
+            counter++;
+
+            images.push(image);
+          } catch (error) {
+            return images;
+          }
+        }
+      }),
+    ];
+
+    setResultImages([...allImages]);
+  }, [uniqueResults]);
+
   if (loading) return <h1>loading</h1>;
   if (error) return <h1>{error.message}</h1>;
-
-  console.log('results', results);
-  console.log('runique esults', uniqueResults);
-  console.log('query', query);
 
   return (
     <div>
       <span>
         <h1>
-          {uniqueResults.length} results for "{query}"
+          {resultImages.reduce((total, result) => total + result.length, 0)}{' '}
+          results for "{query}"
         </h1>
         <form
           onSubmit={(e) => {
@@ -75,16 +103,7 @@ export default function (props) {
       </span>
 
       <div id='results'>
-        {uniqueResults.length > 0 &&
-          uniqueResults.map(({ patentId: id, object }) => (
-            <div key={Math.random() + id} className='result-img-container'>
-              {object !== '0' && <h3>{object}</h3>}
-              <img
-                className='result-img'
-                src={require(`../../dataset/${id}-D00000.png`)}
-              />
-            </div>
-          ))}
+        {uniqueResults.length > 0 && resultImages.map((result) => result)}
       </div>
     </div>
   );
