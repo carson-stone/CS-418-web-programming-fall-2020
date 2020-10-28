@@ -12,7 +12,7 @@ export default function useFormFields(initialValues) {
     typeof e.target.value === 'string'
       ? setValues({
           ...formValues,
-          [e.target.name]: removeHtmlTags(e.target.value).trim(),
+          [e.target.name]: removeHtmlTags(e.target.value),
         })
       : setValues({ ...formValues, [e.target.name]: e.target.value });
   };
