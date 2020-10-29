@@ -55,7 +55,8 @@ span:nth-child(2) a:nth-child(2) {
   text-decoration: underline;
 }
 
-input {
+input,
+textarea {
   border: none;
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(187, 177, 177, 0.1);
@@ -126,7 +127,8 @@ label {
   margin-bottom: 50px;
 }
 
-label input {
+label input,
+textarea {
   margin-top: 25px;
 }
 
@@ -195,4 +197,8 @@ label input {
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   overflow: hidden;
   padding: 25px;
+}
+
+#add-figure-btn {
+  margin-bottom: 100px;
 }

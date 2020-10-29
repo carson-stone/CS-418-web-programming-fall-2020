@@ -1,6 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from elasticsearch import Elasticsearch
+import uuid
 
 from .models import Figure
 
@@ -71,6 +72,34 @@ class Search(graphene.Mutation):
         )
 
 
+class Index(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    class Arguments:
+        description = graphene.String(required=True)
+        object = graphene.String(required=True)
+        patent_id = graphene.String(required=True)
+        aspect = graphene.String(required=True)
+
+    def mutate(self, info, description, object, patent_id, aspect):
+        es = Elasticsearch()
+
+        body = {
+            "description": description,
+            "object": object,
+            "patentID": patent_id,
+            "aspect": aspect,
+        }
+
+        try:
+            results = es.index(index="figures", id=uuid.uuid4(), body=body)
+            return Index(ok=True)
+
+        except:
+            return Index(ok=False)
+
+
 class Mutation(graphene.ObjectType):
     create_figure = CreateFigure.Field()
     search = Search.Field()
+    index = Index.Field()
