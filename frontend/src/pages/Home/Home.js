@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -45,12 +45,14 @@ export const INDEX_MUTATION = gql`
     $patentId: String!
     $object: String!
     $aspect: String!
+    $image: String!
   ) {
     index(
       description: $description
       patentId: $patentId
       object: $object
       aspect: $aspect
+      image: $image
     ) {
       ok
     }
@@ -60,6 +62,9 @@ export const INDEX_MUTATION = gql`
 export default function () {
   const { user, setUser } = useAppContext();
 
+  const [fileString, setFileString] = useState('');
+  const [results, setResults] = useState(null);
+
   const { loading, error, data } = useQuery(ME_QUERY, {
     onCompleted: (data) => {
       if (!user) {
@@ -68,8 +73,6 @@ export default function () {
       }
     },
   });
-
-  const [results, setResults] = useState(null);
 
   const [search, { loading: searchLoading, error: searchError }] = useMutation(
     SEARCH_MUTATION,
@@ -97,6 +100,8 @@ export default function () {
     addObject: '',
     addAspect: '',
   });
+
+  const file = useRef(null);
 
   if (loading || searchLoading || indexLoading) return <h1>loading</h1>;
   if (error) return <h1>{error.message}</h1>;
@@ -211,7 +216,7 @@ export default function () {
             />
           </label>
           <label htmlFor='addPatentId'>
-            Patent ID
+            Patent ID - figure is indexed as "(patent ID)-D0000.png"
             <input
               type='text'
               id='addPatentId'
@@ -242,18 +247,35 @@ export default function () {
               rows='8'
             ></textarea>
           </label>
+          <label htmlFor='addImage'>
+            Image
+            <input
+              type='file'
+              id='addImage'
+              name='addImage'
+              onChange={(e) => {
+                file.current = e.target.files[0];
+
+                const reader = new FileReader();
+                reader.onloadend = () => setFileString(reader.result);
+                reader.readAsDataURL(file.current);
+              }}
+            />
+          </label>
         </div>
         <button
           className='primary'
           id='add-figure-btn'
           onClick={(e) => {
             e.preventDefault();
+
             index({
               variables: {
                 description: values.addDescription,
                 object: values.addObject,
                 patentId: values.addPatentId,
                 aspect: values.addAspect,
+                image: fileString,
               },
             });
           }}

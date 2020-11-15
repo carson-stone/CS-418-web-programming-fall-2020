@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from elasticsearch import Elasticsearch
-import uuid
+import uuid, base64
 
 from .models import Figure
 
@@ -80,8 +80,9 @@ class Index(graphene.Mutation):
         object = graphene.String(required=True)
         patent_id = graphene.String(required=True)
         aspect = graphene.String(required=True)
+        image = graphene.String(required=True)
 
-    def mutate(self, info, description, object, patent_id, aspect):
+    def mutate(self, info, description, object, patent_id, aspect, image):
         es = Elasticsearch()
 
         body = {
@@ -92,6 +93,13 @@ class Index(graphene.Mutation):
         }
 
         try:
+            with open(
+                f"../../frontend/src/dataset/{patent_id}-D00000.png", "wb"
+            ) as file:
+                image_bytes = image.split(",")[1].encode()
+                decoded_image = base64.decodebytes(image_bytes)
+                file.write(decoded_image)
+
             results = es.index(index="figures", id=uuid.uuid4(), body=body)
             return Index(ok=True)
 
