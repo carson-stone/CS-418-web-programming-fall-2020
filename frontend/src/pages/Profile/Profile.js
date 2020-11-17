@@ -93,6 +93,7 @@ export default function () {
     GET_SAVED_FIGURES,
     {
       onCompleted: (data) => setSavedFigures(data.me.profile.savedFigures),
+      fetchPolicy: 'cache-and-network',
     }
   );
 

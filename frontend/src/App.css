@@ -229,3 +229,14 @@ textarea {
 #saved-figures-on-profile {
   margin: 100px 0 -25px;
 }
+
+.figure-and-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.figure-and-btn button {
+  margin-left: 50px;
+}

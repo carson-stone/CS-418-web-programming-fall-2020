@@ -167,7 +167,7 @@ class VerifyEmail(graphene.Mutation):
         return VerifyEmail(success=False)
 
 
-class SaveFigure(graphene.Mutation):
+class ToggleSaveFigure(graphene.Mutation):
     ok = graphene.Boolean()
 
     class Arguments:
@@ -180,16 +180,27 @@ class SaveFigure(graphene.Mutation):
     def mutate(self, info, id, object, description, aspect, imagePath):
         user = info.context.user
 
-        figure = Figure.objects.create(
-            patent_id=id,
-            object=object,
-            description=description,
-            aspect=aspect,
-            imagePath=imagePath,
-        )
-        user.profile.get(user=user).saved_figures.add(figure)
+        saved_figures = user.profile.get(user=user).saved_figures
 
-        return SaveFigure(ok=True)
+        try:
+            figure = saved_figures.get(patent_id__exact=id)
+            saved_figures.remove(figure)
+
+            Figure.objects.get(patent_id__exact=id).delete()
+
+            return ToggleSaveFigure(ok=True)
+        except:
+            figure = Figure.objects.create(
+                patent_id=id,
+                object=object,
+                description=description,
+                aspect=aspect,
+                imagePath=imagePath,
+            )
+
+            user.profile.get(user=user).saved_figures.add(figure)
+
+            return ToggleSaveFigure(ok=True)
 
 
 class Mutation(graphene.ObjectType):
@@ -200,7 +211,7 @@ class Mutation(graphene.ObjectType):
     can_recover_password = CanRecoverPassword.Field()
     is_user_verified = IsUserVerified.Field()
     verify_email = VerifyEmail.Field()
-    save_figure = SaveFigure.Field()
+    toggle_save_figure = ToggleSaveFigure.Field()
 
 
 class Query(graphene.ObjectType):
