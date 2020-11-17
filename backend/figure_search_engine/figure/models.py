@@ -6,3 +6,4 @@ class Figure(models.Model):
     object = models.TextField()
     description = models.TextField(default="")
     aspect = models.TextField(default="")
+    imagePath = models.URLField()

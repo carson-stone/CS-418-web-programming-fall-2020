@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useMutation } from 'react-apollo';
+import { Redirect, useHistory } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { useAppContext } from '../../state/AppContext';
@@ -22,9 +22,28 @@ const UPDATE_PASSWORD_MUTATION = gql`
   }
 `;
 
+const GET_SAVED_FIGURES = gql`
+  query GetSavedFigures {
+    me {
+      profile {
+        savedFigures {
+          patentId
+          object
+          description
+          aspect
+          imagePath
+        }
+      }
+    }
+  }
+`;
+
 export default function () {
   const history = useHistory();
   const { user, setUser, setToken } = useAppContext();
+
+  const [savedFigures, setSavedFigures] = useState([]);
+  const [figure, setFigure] = useState(null);
 
   const [phone, setPhone] = useState(user ? user.phone : '');
   const [interest, setInterest] = useState(user ? user.interest : '');
@@ -70,6 +89,13 @@ export default function () {
     history.push('/login');
   };
 
+  const { loading: figuresLoading, error: figuresError } = useQuery(
+    GET_SAVED_FIGURES,
+    {
+      onCompleted: (data) => setSavedFigures(data.me.profile.savedFigures),
+    }
+  );
+
   const [updateProfile, { loading, error }] = useMutation(
     UPDATE_PROFILE_MUTATION,
     {
@@ -91,7 +117,18 @@ export default function () {
     },
   });
 
-  if (loading || passwordLoading) {
+  if (figure) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/figure',
+          state: { ...figure },
+        }}
+      />
+    );
+  }
+
+  if (loading || passwordLoading || figuresLoading) {
     return <h2>loading</h2>;
   }
 
@@ -101,6 +138,7 @@ export default function () {
 
       {error && <h2>{error.message}</h2>}
       {passwordError && <h2>{passwordError.message}</h2>}
+      {figuresError && <h2>{figuresError.message}</h2>}
 
       {editing && (
         <>
@@ -230,6 +268,32 @@ export default function () {
             </span>
           </div>
         </>
+      )}
+
+      <h1 id='saved-figures-on-profile'>Saved Figures</h1>
+      {savedFigures.length > 0 && (
+        <div id='results'>
+          {savedFigures.map(
+            ({ patentId: id, object, description, aspect, imagePath }) => (
+              <div
+                key={Math.random() + id}
+                className='result-img-container'
+                onClick={() =>
+                  setFigure({
+                    id,
+                    object,
+                    description: description,
+                    aspect: aspect,
+                    image: imagePath,
+                  })
+                }
+              >
+                <h3>{object}</h3>
+                <img className='result-img' src={`${imagePath}`} />
+              </div>
+            )
+          )}
+        </div>
       )}
     </div>
   );

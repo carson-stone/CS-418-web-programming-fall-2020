@@ -7,6 +7,7 @@ from email_verification.models import Email
 import graphene
 from graphene_django import DjangoObjectType
 from .models import Profile
+from figure.models import Figure
 
 
 class ProfileType(DjangoObjectType):
@@ -166,6 +167,31 @@ class VerifyEmail(graphene.Mutation):
         return VerifyEmail(success=False)
 
 
+class SaveFigure(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    class Arguments:
+        id = graphene.String()
+        object = graphene.String()
+        description = graphene.String()
+        aspect = graphene.String()
+        imagePath = graphene.String()
+
+    def mutate(self, info, id, object, description, aspect, imagePath):
+        user = info.context.user
+
+        figure = Figure.objects.create(
+            patent_id=id,
+            object=object,
+            description=description,
+            aspect=aspect,
+            imagePath=imagePath,
+        )
+        user.profile.get(user=user).saved_figures.add(figure)
+
+        return SaveFigure(ok=True)
+
+
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     update_profile = UpdateProfile.Field()
@@ -174,6 +200,7 @@ class Mutation(graphene.ObjectType):
     can_recover_password = CanRecoverPassword.Field()
     is_user_verified = IsUserVerified.Field()
     verify_email = VerifyEmail.Field()
+    save_figure = SaveFigure.Field()
 
 
 class Query(graphene.ObjectType):

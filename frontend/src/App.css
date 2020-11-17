@@ -225,3 +225,7 @@ textarea {
 .figure span {
   flex: 1;
 }
+
+#saved-figures-on-profile {
+  margin: 100px 0 -25px;
+}
