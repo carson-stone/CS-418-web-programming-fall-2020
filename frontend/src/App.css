@@ -258,3 +258,8 @@ textarea {
   background-color: #1d9276;
   color: white;
 }
+
+#g-recaptcha {
+  transform: translateX(calc(50vw - 150px));
+  margin: 5rem auto;
+}

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, Redirect } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { loadReCaptcha, ReCaptcha } from 'react-recaptcha-google';
 
 import { useAppContext } from '../../state/AppContext';
 
@@ -30,6 +31,9 @@ export default function () {
 
   const [valid, setValid] = useState('');
 
+  const [recaptchaCode, setRecaptchaCode] = useState(null);
+  const recaptcha = useRef(null);
+
   const validate = () => {
     if (email.length === 0 || password.length === 0) {
       setValid(false);
@@ -38,6 +42,10 @@ export default function () {
 
     setValid(true);
   };
+
+  useEffect(() => {
+    loadReCaptcha();
+  }, []);
 
   useEffect(() => {
     validate();
@@ -99,9 +107,13 @@ export default function () {
             className='primary'
             onClick={(e) => {
               e.preventDefault();
+              // if (recaptchaCode) {
               authenticate({
                 variables: { email, password },
               });
+              // } else {
+              //   alert('You must verify with the ReCAPTCHA tool');
+              // }
             }}
             disabled={!valid}
           >
@@ -118,6 +130,15 @@ export default function () {
           </button>
         </span>
       </div>
+
+      <ReCaptcha
+        ref={recaptcha}
+        render='explicit'
+        sitekey='6LcwGeQZAAAAAP6AYnyarMZE239hGgODGNQpFHom'
+        onChange={(token) => alert(token)}
+        onErrored={(err) => alert(err)}
+        badge='inline'
+      />
     </div>
   );
 }
