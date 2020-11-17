@@ -243,6 +243,8 @@ export default function (props) {
         </form>
       </span>
 
+      <div className='page-nums'>{pageNumbers.map((page) => page)}</div>
+
       <div id='results'>
         {resultSets[page - 1] && resultSets[page - 1].map((result) => result)}
       </div>

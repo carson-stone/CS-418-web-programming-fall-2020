@@ -31,8 +31,12 @@ export default function () {
 
   const [valid, setValid] = useState('');
 
-  const [recaptchaCode, setRecaptchaCode] = useState(null);
   const recaptcha = useRef(null);
+  const [recaptchaCode, setRecaptchaCode] = useState(null);
+
+  const verifyCallback = function () {
+    alert('verified');
+  };
 
   const validate = () => {
     if (email.length === 0 || password.length === 0) {
@@ -135,9 +139,8 @@ export default function () {
         ref={recaptcha}
         render='explicit'
         sitekey='6LcwGeQZAAAAAP6AYnyarMZE239hGgODGNQpFHom'
-        onChange={(token) => alert(token)}
-        onErrored={(err) => alert(err)}
         badge='inline'
+        verifyCallback={verifyCallback}
       />
     </div>
   );
