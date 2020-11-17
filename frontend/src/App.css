@@ -190,6 +190,7 @@ textarea {
 
 .result-img-container {
   margin: 1rem;
+  cursor: pointer;
 }
 
 #results {
@@ -201,4 +202,26 @@ textarea {
 
 #add-figure-btn {
   margin-bottom: 100px;
+}
+
+.highlight {
+  color: #1c1e8b;
+}
+
+.figure {
+  width: 600px;
+  text-align: right;
+}
+
+.figure:first-of-type {
+  margin-top: 50px;
+}
+
+.figure label {
+  flex: none;
+  width: 250px;
+}
+
+.figure span {
+  flex: 1;
 }

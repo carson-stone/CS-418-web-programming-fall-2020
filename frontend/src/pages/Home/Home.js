@@ -33,7 +33,9 @@ export const SEARCH_MUTATION = gql`
     ) {
       figures {
         patentId
+        description
         object
+        aspect
       }
     }
   }
@@ -85,8 +87,9 @@ export default function () {
     INDEX_MUTATION,
     {
       onCompleted: (data) =>
-        data.index.ok && alert('Your figure has been added!'),
-      onError: (error) => alert(error),
+        data.index.ok
+          ? alert('Your figure has been added!')
+          : alert('Error adding your figure'),
     }
   );
 
