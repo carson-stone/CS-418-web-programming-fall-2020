@@ -12,6 +12,13 @@ export default function (props) {
   let { results: initialResults, query: initialQuery } = props.location.state;
   const [results, setResults] = useState(initialResults);
   const [query, setQuery] = useState(initialQuery);
+  const [page, setPage] = useState(1);
+  const [pageNumbers, setPageNumbers] = useState([
+    <span className='page-num active' key='1'>
+      1
+    </span>,
+  ]);
+  const [resultSets, setResultSets] = useState([]);
 
   const [uniqueResults, setUniqueResults] = useState([]);
   const [resultImages, setResultImages] = useState([]);
@@ -113,6 +120,87 @@ export default function (props) {
     setResultImages([...allImages]);
   }, [uniqueResults]);
 
+  useEffect(() => {
+    const resultCount = resultImages.reduce(
+      (total, result) => total + result.length,
+      0
+    );
+
+    const newPageCount = Math.max(Math.ceil(resultCount / 20), 1);
+    const newPageNumbers = [];
+
+    for (let i = 1; i <= newPageCount; ++i) {
+      if (page == i) {
+        newPageNumbers.push(
+          <span className='page-num active' onClick={() => setPage(i)} key={i}>
+            {i}
+          </span>
+        );
+      } else {
+        newPageNumbers.push(
+          <span className='page-num' onClick={() => setPage(i)} key={i}>
+            {i}
+          </span>
+        );
+      }
+    }
+
+    setPageNumbers(newPageNumbers);
+
+    const newResultSets = [];
+    let resultSet = [];
+
+    for (let k = 0; k < resultImages.length; ++k) {
+      for (let i = 0; i < resultImages[k].length; ++i) {
+        if (resultSet.length === 20) {
+          newResultSets.push(resultSet);
+          resultSet = [];
+        }
+
+        resultSet.push(resultImages[k][i]);
+      }
+    }
+    newResultSets.push(resultSet);
+
+    setResultSets(newResultSets);
+  }, [resultImages]);
+
+  useEffect(() => {
+    const newPageNumbers = [];
+
+    pageNumbers.forEach((num) => {
+      newPageNumbers.push(
+        <span
+          className='page-num'
+          onClick={() => setPage(num.props.children)}
+          key={num.props.children}
+        >
+          {num.props.children}
+        </span>
+      );
+    });
+
+    let index = 0;
+
+    pageNumbers.forEach((num) => {
+      if (num.props.children == page) {
+        index = num.props.children - 1;
+      }
+    });
+
+    newPageNumbers[index] = (
+      <span
+        className='page-num active'
+        onClick={() => setPage(index + 1)}
+        key={index + 1}
+      >
+        {index + 1}
+      </span>
+    );
+
+    setPageNumbers(newPageNumbers);
+  }, [page]);
+
   if (loading) return <h1>loading</h1>;
   if (error) return <h1>{error.message}</h1>;
 
@@ -137,6 +225,7 @@ export default function (props) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            setPage(1);
             setQuery(removeHtmlTags(search.current.value).trim());
             searchAgain({ variables: { description: search.current.value } });
           }}
@@ -155,8 +244,10 @@ export default function (props) {
       </span>
 
       <div id='results'>
-        {uniqueResults.length > 0 && resultImages.map((result) => result)}
+        {resultSets[page - 1] && resultSets[page - 1].map((result) => result)}
       </div>
+
+      <div className='page-nums'>{pageNumbers.map((page) => page)}</div>
     </div>
   );
 }

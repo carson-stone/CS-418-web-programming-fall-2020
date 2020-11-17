@@ -240,3 +240,21 @@ textarea {
 .figure-and-btn button {
   margin-left: 50px;
 }
+
+.page-nums {
+  margin: 50px auto;
+}
+
+.page-num {
+  border: solid #1d9276 1px;
+  padding: 2px 8px;
+  margin: 0 8px;
+  font-size: xx-large;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.page-num.active {
+  background-color: #1d9276;
+  color: white;
+}
