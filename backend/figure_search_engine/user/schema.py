@@ -6,6 +6,12 @@ from email_verification.models import Email
 
 import graphene
 from graphene_django import DjangoObjectType
+from .models import Profile
+
+
+class ProfileType(DjangoObjectType):
+    class Meta:
+        model = Profile
 
 
 class UserType(DjangoObjectType):
@@ -13,9 +19,16 @@ class UserType(DjangoObjectType):
         model = get_user_model()
 
     email_verified = graphene.Boolean()
+    profile = graphene.Field(ProfileType)
 
     def resolve_email_verified(self, info):
         return True if self.email_verified.verified else False
+
+    def resolve_profile(self, info):
+        try:
+            return Profile.objects.get(user=self)
+        except:
+            return None
 
 
 class CreateUser(graphene.Mutation):
@@ -34,6 +47,8 @@ class CreateUser(graphene.Mutation):
 
         user.set_password(password)
         user.save()
+        user.profile.create()
+
         email_object = Email(user=user)
         email_object.save()
 
