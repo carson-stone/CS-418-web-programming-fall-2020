@@ -35,7 +35,6 @@ export default function () {
 	const [recaptchaCode, setRecaptchaCode] = useState(null);
 
 	const verifyCallback = function (code) {
-		alert('verified');
 		setRecaptchaCode(code);
 	};
 
@@ -108,13 +107,13 @@ export default function () {
 						className='primary'
 						onClick={(e) => {
 							e.preventDefault();
-							// if (recaptchaCode) {
-							authenticate({
-								variables: { email, password },
-							});
-							// } else {
-							// 	alert('You must verify with the ReCAPTCHA tool');
-							// }
+							if (recaptchaCode) {
+								authenticate({
+									variables: { email, password },
+								});
+							} else {
+								alert('You must verify with the ReCAPTCHA tool');
+							}
 						}}
 						disabled={!valid}
 					>
