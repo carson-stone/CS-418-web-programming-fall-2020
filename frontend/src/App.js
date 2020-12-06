@@ -11,39 +11,39 @@ import NavBar from './components/NavBar/NavBar';
 import './App.css';
 
 const App = function () {
-  let sessionToken = '';
+	let sessionToken = '';
 
-  if (sessionStorage.getItem('token')) {
-    sessionToken = sessionStorage.getItem('token');
-  }
+	if (sessionStorage.getItem('token')) {
+		sessionToken = sessionStorage.getItem('token');
+	}
 
-  const [token, setToken] = useState(sessionToken);
-  const [user, setUser] = useState(null);
+	const [token, setToken] = useState(sessionToken);
+	const [user, setUser] = useState(null);
 
-  const httpLink = createHttpLink({
-    uri: 'http://localhost:8000/graphql/',
-    headers: {
-      Authorization: `JWT ${token}`,
-    },
-  });
+	const httpLink = createHttpLink({
+		uri: 'http://localhost:8000/graphql/',
+		headers: {
+			Authorization: `JWT ${token}`,
+		},
+	});
 
-  let client = new ApolloClient({
-    link: httpLink,
-    cache: new InMemoryCache(),
-  });
+	let client = new ApolloClient({
+		link: httpLink,
+		cache: new InMemoryCache(),
+	});
 
-  return (
-    <ApolloProvider client={client}>
-      <AppContext.Provider value={{ token, setToken, user, setUser }}>
-        <Router>
-          <div className='App'>
-            <NavBar />
-            <Routes />
-          </div>
-        </Router>
-      </AppContext.Provider>
-    </ApolloProvider>
-  );
+	return (
+		<ApolloProvider client={client}>
+			<AppContext.Provider value={{ token, setToken, user, setUser }}>
+				<Router>
+					<div className='App'>
+						<NavBar />
+						<Routes />
+					</div>
+				</Router>
+			</AppContext.Provider>
+		</ApolloProvider>
+	);
 };
 
 export default App;
