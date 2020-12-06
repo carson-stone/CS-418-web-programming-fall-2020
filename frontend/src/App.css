@@ -1,265 +1,268 @@
 .App {
-  text-align: center;
-  font-family: 'Petrona', serif;
-  font-weight: 500;
-  font-size: 18px;
-  color: #1d9276;
-  background-color: #fafafa;
-  min-height: 100vh;
-  height: 100%;
+	text-align: center;
+	font-family: 'Petrona', serif;
+	font-weight: 500;
+	font-size: 18px;
+	color: #1d9276;
+	background-color: #fafafa;
+	min-height: 100vh;
+	height: 100%;
 }
 
 h1 {
-  font-size: 36px;
-  font-weight: 500;
-  margin: 50px 0;
+	font-size: 36px;
+	font-weight: 500;
+	margin: 50px 0;
 }
 
 h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #31584f;
+	font-size: 24px;
+	font-weight: 700;
+	color: #31584f;
 }
 
 h3 {
-  color: #31584f;
+	color: #31584f;
 }
 
 .NavBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 10px 50px;
-  box-shadow: 0 0 12px hsla(0, 100%, 0%, 0.1);
-  position: sticky;
-  top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #ffffff;
+	padding: 10px 50px;
+	box-shadow: 0 0 12px hsla(0, 100%, 0%, 0.1);
+	position: sticky;
+	top: 0;
 }
 
 span:nth-child(2) a:nth-child(2) {
-  margin-left: 4rem;
+	margin-left: 4rem;
 }
 
 .NavBar a {
-  font-size: 24px;
-  font-weight: 700;
-  text-decoration: none;
-  color: #1d9276;
+	font-size: 24px;
+	font-weight: 700;
+	text-decoration: none;
+	color: #1d9276;
 }
 
 .NavBar a:hover {
-  color: #31584f;
+	color: #31584f;
 }
 
 .link-selected {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 input,
 textarea {
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(187, 177, 177, 0.1);
-  padding: 10px 15px;
-  color: #595959;
-  font-size: 18px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 6px 12px rgba(187, 177, 177, 0.1);
+	padding: 10px 15px;
+	color: #595959;
+	font-size: 18px;
 }
 
 input::placeholder {
-  color: #a4a4a4;
+	color: #a4a4a4;
 }
 
 button {
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 10px 20px;
-  align-self: center;
+	cursor: pointer;
+	border-radius: 10px;
+	padding: 10px 20px;
+	align-self: center;
 }
 
 button.primary {
-  border: none;
-  background-color: #1d9276;
-  color: #ffffff;
-  box-shadow: 0 6px 12px hsla(0, 100%, 0%, 0.1);
-  font-weight: 700;
+	border: none;
+	background-color: #1d9276;
+	color: #ffffff;
+	box-shadow: 0 6px 12px hsla(0, 100%, 0%, 0.1);
+	font-weight: 700;
 }
 
 button.primary:disabled {
-  background-color: #a4a4a4;
-  cursor: default;
+	background-color: #a4a4a4;
+	cursor: default;
 }
 
 button.secondary {
-  border: solid #1d9276 1px;
-  background-color: transparent;
-  color: #1d9276;
+	border: solid #1d9276 1px;
+	background-color: transparent;
+	color: #1d9276;
 }
 
 .button-row-container {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .button-row {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .button-row button:nth-child(1) {
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .button-row button:nth-last-child(1) {
-  margin-left: 10px;
+	margin-left: 10px;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 label {
-  width: 400px;
-  text-align: start;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
+	width: 400px;
+	text-align: start;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 50px;
 }
 
 label input,
 textarea {
-  margin-top: 25px;
+	margin-top: 25px;
 }
 
 #search-form {
-  display: inline;
+	display: inline;
 }
 
 .form-row {
-  width: 400px;
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
+	width: 400px;
+	justify-content: space-between;
+	display: flex;
+	align-items: center;
 }
 
 .form-row span {
-  color: #a4a4a4;
+	color: #a4a4a4;
 }
 
 .form-row label {
-  margin: 25px 0;
-  flex: 0;
+	margin: 25px 0;
+	flex: 0;
 }
 
 .form-row:first-child label {
-  margin-top: 0px;
+	margin-top: 0px;
 }
 
 .form-row:first-child span {
-  align-self: flex-start;
+	align-self: flex-start;
 }
 
 .form-row:last-child label {
-  margin-bottom: 50px;
+	margin-bottom: 50px;
 }
 
 .form-row:last-child span,
 .form-row:last-child input {
-  margin-top: 25px;
-  margin-bottom: 50px;
+	margin-top: 25px;
+	margin-bottom: 50px;
 }
 
 #password-row input {
-  margin-bottom: 50px;
-  margin-top: 0px;
+	margin-bottom: 50px;
+	margin-top: 0px;
 }
 
 #advanced-search {
-  margin-top: 25px;
+	margin-top: 25px;
 }
 
 #search-box-and-btn {
-  display: flex;
+	display: flex;
 }
 
 .result-img {
-  max-height: 400px;
-  max-width: 100%;
+	max-height: 400px;
+	max-width: 100%;
 }
 
 .result-img-container {
-  margin: 1rem;
-  cursor: pointer;
+	margin: 1rem;
+	cursor: pointer;
 }
 
 #results {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  overflow: hidden;
-  padding: 25px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+	overflow: hidden;
+	padding: 25px;
 }
 
 #add-figure-btn {
-  margin-bottom: 100px;
+	margin-bottom: 100px;
 }
 
 .highlight {
-  color: #1c1e8b;
+	color: #ffffff;
+	background-color: #9698ff;
+	padding: 2px 8px;
+	border-radius: 4px;
 }
 
 .figure {
-  width: 600px;
-  text-align: right;
+	width: 600px;
+	text-align: right;
 }
 
 .figure:first-of-type {
-  margin-top: 50px;
+	margin-top: 50px;
 }
 
 .figure label {
-  flex: none;
-  width: 250px;
+	flex: none;
+	width: 250px;
 }
 
 .figure span {
-  flex: 1;
+	flex: 1;
 }
 
 #saved-figures-on-profile {
-  margin: 100px 0 -25px;
+	margin: 100px 0 -25px;
 }
 
 .figure-and-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
 }
 
 .figure-and-btn button {
-  margin-left: 50px;
+	margin-left: 50px;
 }
 
 .page-nums {
-  margin: 50px auto;
+	margin: 50px auto;
 }
 
 .page-num {
-  border: solid #1d9276 1px;
-  padding: 2px 8px;
-  margin: 0 8px;
-  font-size: xx-large;
-  cursor: pointer;
-  border-radius: 4px;
+	border: solid #1d9276 1px;
+	padding: 2px 8px;
+	margin: 0 8px;
+	font-size: xx-large;
+	cursor: pointer;
+	border-radius: 4px;
 }
 
 .page-num.active {
-  background-color: #1d9276;
-  color: white;
+	background-color: #1d9276;
+	color: white;
 }
 
 #g-recaptcha {
-  transform: translateX(calc(50vw - 150px));
-  margin: 5rem auto;
+	transform: translateX(calc(50vw - 150px));
+	margin: 5rem auto;
 }
