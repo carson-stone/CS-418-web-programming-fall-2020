@@ -244,6 +244,8 @@ export default function (props) {
 					<span id='search-box-and-btn'>
 						<input
 							type='text'
+							spellCheck
+							autoComplete
 							name='description'
 							placeholder='ex. toaster designs'
 							ref={search}
