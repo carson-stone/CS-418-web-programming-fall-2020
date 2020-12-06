@@ -105,6 +105,13 @@ export default function (props) {
 											)}
 									</h3>
 								)}
+								<a
+									href={`${process.env.PUBLIC_URL}/dataset/${id}-D0000${counter}.png`}
+									className='download-link'
+									download
+								>
+									download
+								</a>
 								<img
 									className='result-img'
 									src={`${process.env.PUBLIC_URL}/dataset/${id}-D0000${counter}.png`}

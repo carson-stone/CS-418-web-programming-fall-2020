@@ -186,11 +186,18 @@ textarea {
 .result-img {
 	max-height: 400px;
 	max-width: 100%;
+	align-self: center;
+}
+
+.profile-result-img {
+	align-self: center;
 }
 
 .result-img-container {
 	margin: 1rem;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
 }
 
 #results {
@@ -265,4 +272,8 @@ textarea {
 #g-recaptcha {
 	transform: translateX(calc(50vw - 150px));
 	margin: 5rem auto;
+}
+
+.download-link {
+	margin-bottom: 8px;
 }
