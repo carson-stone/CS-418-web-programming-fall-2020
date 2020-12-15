@@ -6,7 +6,7 @@ import random, string
 
 def generate_random_verification_code():
     # from https://www.askpython.com/python/examples/generate-random-strings-in-python
-    return "".join(random.choice(string.ascii_letters) for _ in range(15))
+    return "".join(random.choice(string.ascii_letters) for _ in range(12))
 
 
 class Email(models.Model):
@@ -17,4 +17,4 @@ class Email(models.Model):
         primary_key=True,
     )
     verified = models.BooleanField(default=False)
-    code = models.CharField(default=generate_random_verification_code(), max_length=15)
+    code = models.CharField(default=generate_random_verification_code, max_length=15)
